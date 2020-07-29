@@ -9,12 +9,13 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const Employee = require("./lib/Employee");
+// const Employee = require("./lib/Employee");
 
 const teamMember = [];
-const allMember = [];
+
 
 function createManager() {
+    console.log ("Let's build your team!")
     inquirer.prompt([
         {
             type: "list",
@@ -25,33 +26,56 @@ function createManager() {
         {
             type: "input",
             name: "name",
-            message: "What is the manager's name?"
+            message: "What is the Manager's name?",
+            validate: data => {
+                if (data !== "") {
+                    return true;
+                }
+                return "Please enter the Manager's name."
+            }
+            
         },
         {
             type: "input",
             name: "id",
-            message: "What is the manager's ID number?"
+            message: "What is the Manager's ID number?",
+            validate: data => {
+                const valid = data.match(
+                    /^[1-9]\d*$/
+                );
+                if (valid) {
+                    return true;
+                }
+                return "Please enter a valid ID number.";
+            }
         },
         {
             type: "input",
             name: "email",
-            message: "What is the manager's email?",
+            message: "What is the Manager's email?",
             default: () => { },
             validate: function (email) {
 
                 valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 if (valid) {
                     return true;
-                } else {
-                    console.log(".  Please enter a valid email")
-                    return false;
                 }
-            }
+                    return "Please enter a valid email.";
+                }
         },
         {
             type: "input",
             name: "officeNumber",
-            message: "What is the Manager's office number?"
+            message: "What is the Manager's office number?",
+            validate: data => {
+                const valid = data.match(
+                    /^[1-9]\d*$/
+                );
+                if (valid) {
+                    return true;
+                }
+                return "Please enter a valid office number.";
+            }
         },
         {
             type: "list",
@@ -59,7 +83,7 @@ function createManager() {
             message: "Which type of team member would you like to add?",
             choices: [ "Engineer", "Intern","Exit!"],
         }
-    ]) .then(function(data){
+    ]) .then (data => {
         const manager = new Manager(data.name, data.id, data.email, data.officeNumber);
         teamMember.push(manager);
 
@@ -81,12 +105,27 @@ function createEngineer() {
         {
             type: "input",
             name: "name",
-            message: "What is the Engineer's name?"
+            message: "What is the Engineer's name?",
+            validate: data => {
+                if (data !== "") {
+                    return true;
+                }
+                return "Please enter the Engineer's name."
+            }
         },
         {
             type: "input",
             name: "id",
-            message: "What is the Engineer's ID number?"
+            message: "What is the Engineer's ID number?",
+            validate: data => {
+                const valid = data.match(
+                    /^[1-9]\d*$/
+                );
+                if (valid) {
+                    return true;
+                }
+                return "Please enter a valid ID number.";
+            }
         },
         {
             type: "input",
@@ -98,17 +137,20 @@ function createEngineer() {
                 valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 if (valid) {
                     return true;
-                } else {
-                    console.log(".  Please enter a valid email")
-                    return false;
                 }
-            }
-
+                    return "Please enter a valid email.";
+                }
         },
         {
             type: "input",
             name: "github",
             message: "Please enter the Engineer's GitHub username.",
+            validate: data => {
+                if (data !== "") {
+                    return true;
+                }
+                return "Please enter the Engineer's GitHub username."
+            }
         },
         {
             type: "list",
@@ -116,7 +158,7 @@ function createEngineer() {
             message: "Which type of team member would you like to add?",
             choices: ["Engineer", "Intern","Exit!"],
         }
-    ]) .then(function(data){
+    ]) .then (data => {
         const engineer = new Engineer(data.name, data.id, data.email, data.github);
         teamMember.push(engineer);
 
@@ -138,12 +180,27 @@ function createIntern() {
         {
             type: "input",
             name: "name",
-            message: "What is the Intern's name?"
+            message: "What is the Intern's name?",
+            validate: data => {
+                if (data !== "") {
+                    return true;
+                }
+                return "Please enter the Intern's name."
+            }
         },
         {
             type: "input",
             name: "id",
-            message: "What is the Intern's ID number?"
+            message: "What is the Intern's ID number?",
+            validate: data => {
+                const valid = data.match(
+                    /^[1-9]\d*$/
+                );
+                if (valid) {
+                    return true;
+                }
+                return "Please enter a valid ID number.";
+            }
         },
         {
             type: "input",
@@ -155,17 +212,20 @@ function createIntern() {
                 valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 if (valid) {
                     return true;
-                } else {
-                    console.log(".  Please enter a valid email")
-                    return false;
                 }
-            }
-
+                    return "Please enter a valid email.";
+                }
         },
         {
             type: "input",
             name: "school",
             message: "Please enter the name of the Intern's school.",
+            validate: data => {
+                if (data !== "") {
+                    return true;
+                }
+                return "Please enter the name of the Intern's school."
+            }
         },
         {
             type: "list",
@@ -173,9 +233,9 @@ function createIntern() {
             message: "Which type of team member would you like to add?",
             choices: ["Engineer", "Intern","Exit!"],
         }
-    ]) .then(function(data){
-        const engineer = new Engineer(data.name, data.id, data.email, data.github);
-        teamMember.push(Intern);
+    ]) .then(data => {
+        const intern = new Intern(data.name, data.id, data.email, data.school);
+        teamMember.push(intern);
 
         switch (data.position){
             case "Engineer" :
@@ -191,9 +251,11 @@ function createIntern() {
 }
 
 function createHtml (){
-    fs.writeFileSync(outputPath, render(allMember), "utf-8")
+    fs.writeFileSync(OUTPUT_DIR, render(teamMember), "utf-8");
+    // fs.writeFileSync(outputPath, render(teamMember), "utf-8")
     console.log ("Successfully created your team!")
-}
+} 
+
 
 createManager();
 
