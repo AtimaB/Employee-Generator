@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-// const OUTPUT_DIR = path.resolve(__dirname, "team.html");
+
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
@@ -251,9 +251,8 @@ function createIntern() {
 }
 
 function createHtml (){
-    // fs.writeFileSync(OUTPUT_DIR, render(teamMember), "utf-8");
     fs.writeFileSync(outputPath, render(teamMember), "utf-8")
-    console.log ("Successfully created team.html! (located inside output folder.)")
+    console.log ("Successfully created team.html! (located inside output folder)")
 } 
 
 
